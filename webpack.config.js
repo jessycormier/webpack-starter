@@ -4,8 +4,11 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const config = {
     entry: {
-        main: __dirname + '/src/main.ts',
-        styles: __dirname + '/src/styles/main.scss',
+        main: '/src/main.ts',
+        styles: [
+            '/src/styles/main.scss',
+            '/src/styles/theme/theme.scss',
+        ],
         // pages: ['./src/pages/page.about-us.ts']
     },
     output: {
@@ -21,6 +24,17 @@ const config = {
                 exclude: /node_modules/
             },
             {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                loader: "file-loader",
+                options: {
+                    name: 'images/[name].[ext]',
+                }
+            },
+            {
+                test: /\.(woff|woff2|ttf|eot|otf)$/i,
+                type: 'asset/resource',
+            },
+            {
                 test: /\.scss$/,
                 exclude: /node_modules/,
                 type: 'asset/resource',
@@ -28,7 +42,15 @@ const config = {
                     filename: 'styles/[name]-[contenthash].min.css'
                 },
                 use: [
-                    'sass-loader'
+                    'sass-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: () => [require('autoprefixer')]
+                            }
+                        }
+                    },
                 ]
             }
             //   {

@@ -1,0 +1,17 @@
+/* 
+    _bootstrap-includer.scss
+    
+    bootstrap.scss manages the bootstrap includes.
+
+    If we don't use alert from bootstrap lets not include it in our final ouput.
+
+    To get finetune control copy paste contets of 
+    `node_modules/bootstrap/scss/bootstrap.scss` into this file and comment out 
+    lines that do not matter.
+
+    To customize bootstraps default settings, you must create a variable with 
+    the same name and include it before boostraps var, util, etc files. This is
+    because bootstrap has code that says use X var otherwise default to X.
+
+*/
+@import "~bootstrap/scss/bootstrap";

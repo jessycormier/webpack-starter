@@ -1,5 +1,4 @@
 import { Logger } from './lib/logger.interface';
-import './styles/main.scss';
 
 
 const logger = {

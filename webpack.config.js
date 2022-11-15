@@ -1,35 +1,36 @@
-// const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // TODO: Look into how to work this with mvc pages
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const config = {
-    // entry: './src/main.ts', // TODO: How to use many entry files (to setup a per page load not an SPA)
     entry: {
-        main: {
-            import: './src/main.ts'
-        },
-        aboutUs: {
-            import: './src/pages/page.about-us.ts',
-        }
+        main: __dirname + '/src/main.ts',
+        styles: __dirname + '/src/styles/main.scss',
+        // pages: ['./src/pages/page.about-us.ts']
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].[contenthash].js'
+        filename: '[name].[contenthash].js',
+        clean: true,
     },
     module: {
         rules: [
-            {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader'
-                ]
-            },
             {
                 test: /\.ts(x)?$/,
                 loader: 'ts-loader',
                 exclude: /node_modules/
             },
+            {
+                test: /\.scss$/,
+                exclude: /node_modules/,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'styles/[name]-[contenthash].min.css'
+                },
+                use: [
+                    'sass-loader'
+                ]
+            }
             //   {
             //     test: /\.scss$/,
             //     use: [
@@ -38,37 +39,39 @@ const config = {
             //       'sass-loader'
             //     ]
             //   }
-            {
-                test: /\.(scss)$/,
-                use: [
-                    {
-                        loader: 'style-loader'
-                    },
-                    {
-                        loader: 'css-loader'
-                    },
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            // `postcssOptions` is needed for postcss 8.x;
-                            // if you use postcss 7.x skip the key
-                            postcssOptions: {
-                                // postcss plugins, can be exported to postcss.config.js
-                                plugins: function () {
-                                    return [
-                                        require('autoprefixer')
-                                    ];
-                                }
-                            }
-                        }
-                    }, {
-                        // compiles Sass to CSS
-                        loader: 'sass-loader'
-                    }]
-            }
+            // {
+            //     test: /\.css$/,
+            //     use: [
+            //         MiniCssExtractPlugin.loader,
+            //         // 'style-loader',
+            //         'css-loader'
+            //     ]
+            // },
+            // {
+            //     test: /\.(scss)$/,
+
+            //     // Question: Does order mater?
+            //     use: [
+            //         'sass-loader',
+            //         'style-loader',
+            //         'css-loader',
+
+            //         MiniCssExtractPlugin.loader,
+            //         {
+            //             loader: 'postcss-loader',
+            //             options: {
+            //                 postcssOptions: {
+            //                     plugins: () => [require('autoprefixer')]
+            //                 }
+            //             }
+            //         },
+
+            //     ]
+            // }
         ]
     },
     plugins: [
+        new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({
             templateContent: ({ htmlWebpackPlugin }) => `<!DOCTYPE html>
 <html>

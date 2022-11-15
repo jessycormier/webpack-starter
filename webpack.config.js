@@ -11,8 +11,9 @@ const config = {
         // pages: ['./src/pages/page.about-us.ts']
     },
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        // path: path.resolve(__dirname, 'dist'),
         filename: '[name].[contenthash].js',
+        assetModuleFilename: '[name].[hash][ext][query]',
         clean: true,
     },
     module: {
@@ -23,16 +24,27 @@ const config = {
                 exclude: /node_modules/
             },
             {
-                test: /\.(jpe?g|png|gif|svg)$/i,
-                loader: "file-loader",
-                options: {
-                    name: 'images/[name].[ext]',
-                }
+                test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3)$/i,
+                type: "asset/resource"
             },
-            {
-                test: /\.(woff|woff2|ttf|eot|otf)$/i,
-                type: 'asset/resource',
-            },
+            // {
+            //     test: /\.(jpe?g|png|gif|svg)$/i,
+            //     type: 'asset/resource',
+            //     // generator: {
+            //     //     filename: 'assets/images/[hash][ext][query]'
+            //     // },
+            //     // loader: "file-loader",
+            //     // options: {
+            //     //     name: 'images/[name].[ext]',
+            //     // }
+            // },
+            // {
+            //     test: /\.(woff|woff2|ttf|eot|otf)$/i,
+            //     type: 'asset/resource',
+            //     // generator: {
+            //     //     filename: 'assets/fonts/[hash][ext][query]'
+            //     // },
+            // },
             {
                 test: /\.scss$/,
                 exclude: /node_modules/,
@@ -44,43 +56,6 @@ const config = {
                     'sass-loader',
                 ]
             }
-            //   {
-            //     test: /\.scss$/,
-            //     use: [
-            //       'style-loader',
-            //       'css-loader',
-            //       'sass-loader'
-            //     ]
-            //   }
-            // {
-            //     test: /\.css$/,
-            //     use: [
-            //         MiniCssExtractPlugin.loader,
-            //         // 'style-loader',
-            //         'css-loader'
-            //     ]
-            // },
-            // {
-            //     test: /\.(scss)$/,
-
-            //     // Question: Does order mater?
-            //     use: [
-            //         'sass-loader',
-            //         'style-loader',
-            //         'css-loader',
-
-            //         MiniCssExtractPlugin.loader,
-            //         {
-            //             loader: 'postcss-loader',
-            //             options: {
-            //                 postcssOptions: {
-            //                     plugins: () => [require('autoprefixer')]
-            //                 }
-            //             }
-            //         },
-
-            //     ]
-            // }
         ]
     },
     plugins: [

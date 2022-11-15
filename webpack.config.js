@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // TODO: Look into how to work this with mvc pages
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const config = {
     entry: {
@@ -43,14 +42,6 @@ const config = {
                 },
                 use: [
                     'sass-loader',
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {
-                                plugins: () => [require('autoprefixer')]
-                            }
-                        }
-                    },
                 ]
             }
             //   {
@@ -93,7 +84,6 @@ const config = {
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({
             templateContent: ({ htmlWebpackPlugin }) => `<!DOCTYPE html>
 <html>
